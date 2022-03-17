@@ -65,5 +65,7 @@ public class SetMain {
 
         System.out.println();
     }
+    //Inicio da coleção de 1milhão
 
+    long inicio = System.currentTimeMillis();
 }

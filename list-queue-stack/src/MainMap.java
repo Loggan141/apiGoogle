@@ -76,6 +76,8 @@ public class MainMap {
         for(Map.Entry<Integer, String> mappingLHash : mapLHash.entrySet()){
             System.out.println(mappingLHash);
         }
+    //Inicio da coleção de 1milhão
+    long inicio = System.currentTimeMillis();
 
     }
 

@@ -27,6 +27,5 @@ public class MainQueue {
             System.out.println(cars);
         }
 
-
     }
 }
