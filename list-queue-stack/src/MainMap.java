@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 public class MainMap {
     public static void main(String[] args) {
+
         //Nenhum map aceita elemento com Key duplicado
         //Mas aceita o value duplicado
         //Map não pertence a Interface Colletion
@@ -70,12 +71,12 @@ public class MainMap {
         mapLHash.put(6, "Joker1");
         mapLHash.put(3, "Leal");
         mapLHash.put(5, "Oscar2");
-
+        mapLHash.remove(3);
 
         for(Map.Entry<Integer, String> mappingLHash : mapLHash.entrySet()){
             System.out.println(mappingLHash);
         }
 
-
     }
+
 }
