@@ -6,15 +6,13 @@ import java.util.TreeSet;
 public class SetMain {
     public static void main(String[] args) {
 
-        //Set:conjunto. Não tem ordem de inserção de elementos, e não aceita elementos duplicados
+        //Set:conjunto. Não tem ordem de inserção de elementos, e não aceitam elementos duplicados
         //Uma das vantagens são as buscas como por objetos através do contains
         //ou remove que são mais rapidos que uma lista
 
         Set<String> carsHash = new HashSet<>();
         Set<String> carsTree = new TreeSet<>();
         Set<String> carsLinkedHash = new LinkedHashSet<>();
-
-
 
         //Hash não mantem ordem de inserção
 
@@ -65,7 +63,5 @@ public class SetMain {
 
         System.out.println();
     }
-    //Inicio da coleção de 1milhão
 
-    long inicio = System.currentTimeMillis();
 }

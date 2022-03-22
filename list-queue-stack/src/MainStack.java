@@ -21,9 +21,6 @@ public class MainStack {
         for(String car : cars){
             System.out.println(car);
         }
-    //Inicio da coleção de 1milhão
-
-    long inicio = System.currentTimeMillis();
 
     }
 }
