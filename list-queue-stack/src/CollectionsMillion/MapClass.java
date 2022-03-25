@@ -1,3 +1,5 @@
+package CollectionsMillion;
+
 import java.util.*;
 
 public class MapClass {
@@ -8,7 +10,7 @@ public class MapClass {
     public void createTreeMap(){this.map=new TreeMap<>();}
 
     public void createOneMillion(){
-        for(int i=0; i< TesteMillion.ONE_MILLION;i++){
+        for(int i = 0; i< 1000000; i++){
           this.map.put(i+2,i);
         } 
     }

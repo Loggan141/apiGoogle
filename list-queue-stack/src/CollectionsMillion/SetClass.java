@@ -1,4 +1,5 @@
-import java.sql.SQLOutput;
+package CollectionsMillion;
+
 import java.util.*;
 
 public class SetClass {
@@ -12,7 +13,7 @@ public class SetClass {
 
     public void creatingOneMillion(){
         double begin = System.nanoTime();
-        for (int i=0;i<TesteMillion.ONE_MILLION;i++){
+        for (int i = 0; i< 1000000; i++){
             this.set.add(i);
         }
         double finalTime=System.nanoTime()-begin;

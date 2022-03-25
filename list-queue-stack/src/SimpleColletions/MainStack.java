@@ -1,3 +1,5 @@
+package SimpleColletions;
+
 import java.util.Stack;
 
 public class MainStack {
@@ -21,6 +23,5 @@ public class MainStack {
         for(String car : cars){
             System.out.println(car);
         }
-
     }
 }

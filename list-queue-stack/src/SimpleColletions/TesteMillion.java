@@ -1,3 +1,9 @@
+package SimpleColletions;
+
+import CollectionsMillion.ListClass;
+import CollectionsMillion.MapClass;
+import CollectionsMillion.SetClass;
+
 import java.util.*;
 
 public class TesteMillion {
