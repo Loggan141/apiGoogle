@@ -32,7 +32,7 @@ public class LambStreaFunctiona {
              list2.stream().forEach(a-> System.out.println(a));
 
             System.out.println();
-        //Function recebe um T e retorna um R]
+        //Function recebe um T e retorna um R(diferentes)
         //e o map executa um comando especifico em cada um dos dados
 
             list.stream().map(a->a*2).forEach(a-> System.out.println(a));
@@ -50,6 +50,10 @@ public class LambStreaFunctiona {
 
         list.sort((l1,l2)->l1-l2); //Aqui fica em ordem crescente, para decrescente é só trocar para (l2-l1)
         list.forEach(a-> System.out.println(a));
+
+
+
+
 
     }
 }
