@@ -1,3 +1,5 @@
+package SimpleColletions;
+
 import java.util.Stack;
 
 public class MainStack {

@@ -1,3 +1,5 @@
+package SimpleColletions;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -26,7 +28,6 @@ public class MainQueue {
         for(String cars : car){
             System.out.println(cars);
         }
-
 
     }
 }
