@@ -1,4 +1,4 @@
-package SimpleColletions;
+package ASimpleColletions;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -16,6 +16,7 @@ public class MainQueue {
         car.add("Hilux");
         car.add("Corolla Last");
         car.add("Hilux");
+
 
         for(String cars : car){
             System.out.println(cars);

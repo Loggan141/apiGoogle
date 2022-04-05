@@ -1,10 +1,8 @@
-package SimpleColletions;
+package ASimpleColletions;
 
-import CollectionsMillion.ListClass;
-import CollectionsMillion.MapClass;
-import CollectionsMillion.SetClass;
-
-import java.util.*;
+import BCollectionsMillion.ListClass;
+import BCollectionsMillion.MapClass;
+import BCollectionsMillion.SetClass;
 
 public class TesteMillion {
     public static int ONE_MILLION=1000000;

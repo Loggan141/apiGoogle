@@ -3,6 +3,7 @@ package SomeGeneric.service;
 import java.util.List;
 
 public class RentalService<T> {
+
     private List<T> availableObjects;
 
     public RentalService(List<T> availableObjects){

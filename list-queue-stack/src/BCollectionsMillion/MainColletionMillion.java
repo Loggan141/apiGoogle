@@ -1,6 +1,5 @@
-package CollectionsMillion;
+package BCollectionsMillion;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 
@@ -295,8 +294,6 @@ public class MainColletionMillion {
         inicioDosTestes=0; inicioDosTestes=0; tempo=0;
         System.out.println("\n_______________________________________________");
         //FIM TESTE
-
-
 
 
     }

@@ -1,4 +1,4 @@
-package SimpleColletions;
+package ASimpleColletions;
 
 import java.util.Stack;
 
