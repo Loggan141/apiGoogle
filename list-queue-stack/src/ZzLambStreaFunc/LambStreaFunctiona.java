@@ -1,7 +1,10 @@
+package ZzLambStreaFunc;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -9,16 +12,7 @@ public class LambStreaFunctiona {
 
 
     public static void main(String[] args) {
-    //Expressões lambdas são funções anônimas
-        //São utilizadas através das funções funcionais(Que possuem 1 method abstrato)
-        //As principais Funções funcionais são:
-
-        // Predicate<T> recebe um objeto do tipo T - implementa o método
-        //              boolean teste(T t) - e retorna um boolean
-        // Consumer<T>  Recebe mas não retorna nada - void accept(T t)
-        //Function<T,R> Recebe um T e retorna um R -- R apply(T t)
-        //As streams são fluxos de dados
-
+         //As streams são fluxos de dados
 
             List<Integer> list = Arrays.asList(4,1,2,5,3);
 

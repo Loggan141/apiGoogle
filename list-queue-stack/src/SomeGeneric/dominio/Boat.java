@@ -17,8 +17,7 @@ public class Boat {
 
     @Override
     public String toString() {
-        return "Boat[" +
-                "name='" + name + '\'' +
-                ']';
+        return "Boat name: " +
+                 name + '\'';
     }
 }

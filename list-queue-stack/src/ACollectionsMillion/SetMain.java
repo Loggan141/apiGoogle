@@ -1,4 +1,4 @@
-package CollectionsMillion;
+package ACollectionsMillion;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -56,8 +56,6 @@ public class SetMain {
         carsLinkedHash.add("Hilux");
         carsLinkedHash.add("Corolla Last");
         carsLinkedHash.add("Hilux");
-
-
 
         for(String car : carsLinkedHash){
             System.out.println(car);

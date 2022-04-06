@@ -1,4 +1,4 @@
-package CollectionsMillion;
+package BSimpleColletions;
 
 import java.util.*;
 

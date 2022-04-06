@@ -1,4 +1,4 @@
-package SimpleColletions;
+package ACollectionsMillion;
 
 import java.util.Stack;
 

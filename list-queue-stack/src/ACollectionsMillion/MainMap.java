@@ -1,9 +1,6 @@
-package SimpleColletions;
+package ACollectionsMillion;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class MainMap {
     public static void main(String[] args) {
@@ -12,12 +9,11 @@ public class MainMap {
         //Mas aceita o value duplicado
         //Map não pertence a Interface Colletion
 
-
-        //Hashmap extende a classe Abstractmap para usar uma tabela de hash
-        //ordem de inserção não é preservada
+       //ordem de inserção não é preservada
 
         System.out.println("=======HashMap=======\n");
         Map<Integer,String> map = new HashMap<>();
+
 
         map.put(0,"Ponto zero");
         map.put(2, "Loggan");
