@@ -12,7 +12,7 @@ public class LambStreaFunctiona {
 
 
     public static void main(String[] args) {
-    //As streams são fluxos de dados
+         //As streams são fluxos de dados
 
             List<Integer> list = Arrays.asList(4,1,2,5,3);
 

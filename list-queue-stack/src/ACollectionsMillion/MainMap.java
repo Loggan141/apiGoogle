@@ -1,4 +1,4 @@
-package ASimpleColletions;
+package ACollectionsMillion;
 
 import java.util.*;
 

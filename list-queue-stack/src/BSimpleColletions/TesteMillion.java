@@ -1,8 +1,4 @@
-package ASimpleColletions;
-
-import BCollectionsMillion.ListClass;
-import BCollectionsMillion.MapClass;
-import BCollectionsMillion.SetClass;
+package BSimpleColletions;
 
 public class TesteMillion {
     public static int ONE_MILLION=1000000;

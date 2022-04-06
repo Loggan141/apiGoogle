@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class ZInterFuncional {
     public static void main(String[] args) {
 
-
         //Expressões lambdas são funções anônimas
         //São utilizadas através das funções funcionais(Que possuem 1 method abstrato)
         //As principais Funções funcionais são:
