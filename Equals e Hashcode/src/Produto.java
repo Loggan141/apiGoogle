@@ -27,6 +27,7 @@ public class Produto {
     //Foi reescrito o equals e hashcode para que eles comparassem
     //com o ID da minha classe Produto.
     //Deixando os hashCode, como referência, iguais.
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
