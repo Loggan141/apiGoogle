@@ -1,16 +1,22 @@
 package AaLombok;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 //Estando os @ aqui em cima, cria-se para todos os atributos da classe.
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class Person {
 
+    @Setter(AccessLevel.PRIVATE) private String cpf;
     private String name;
-    @Setter (AccessLevel.PROTECTED) private String cpf;
     private int age;
 
 
+
+
 }
+
+

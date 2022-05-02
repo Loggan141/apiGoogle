@@ -1,23 +1,32 @@
 package AaLombok;
 
-import lombok.Getter;
+import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
-        Person person=new Person();
+        Person persona=new Person();
 
-        person.setName("Josias");
-        System.out.println(person.getName());
-        person.setCpf("025.007.190-81");
+        persona.setName("Josias");
+        persona.setCpf("025.000");
+        System.out.println(persona.getName());
 
 
-        Pessoa pessoa = Pessoa.builder()
-                .nome("Joao")
-                .age(25)
-                .cpf("125836988")
+        Person pessoa = Person.builder()
+                    .name("Joao")
+                    .age(25)
+                    .cpf("125836988")
+                    .build();
+        System.out.println(pessoa);
+
+
+        Employees empregado = Employees.builder()
+                .name("Josue")
+                .age(58)
+                .salary(BigDecimal.valueOf(258806))
                 .build();
 
+        System.out.println(empregado);
 
-        System.out.println(pessoa);
+
     }
 }
