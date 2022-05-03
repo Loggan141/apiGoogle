@@ -1,25 +1,24 @@
 package com.example.forumdois.model;
 
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.annotation.Generated;
-import java.math.BigDecimal;
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Document //é o entity so que para mongodb
 //identifica um objeto para persistir no banco de dados mongodb
-public class Funcionario {
+public class FuncionarioDTO {
 
     @Id
     private String codigo;
-
+    @NonNull
     private String nome;
-
+    @NonNull
     private Integer idade;
-
-    private BigDecimal salario;
+    @NonNull
+    private Double salario;
 
 }

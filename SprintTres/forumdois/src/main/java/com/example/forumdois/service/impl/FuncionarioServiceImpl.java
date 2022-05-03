@@ -1,6 +1,6 @@
 package com.example.forumdois.service.impl;
 
-import com.example.forumdois.model.Funcionario;
+import com.example.forumdois.model.FuncionarioDTO;
 import com.example.forumdois.repository.FuncionarioRepository;
 import com.example.forumdois.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,27 +18,27 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private FuncionarioRepository funcionarioRepository;
 
     @Override
-    public List<Funcionario> obterTodos() {
+    public List<FuncionarioDTO> obterTodos() {
+
         return this.funcionarioRepository.findAll();
     }
 
     @Override
-    public ResponseEntity<Funcionario> obterPorCodigo(String codigo) {
-        Optional<Funcionario> funcionario=this.funcionarioRepository.findById(codigo);
-
+    public ResponseEntity<FuncionarioDTO> obterPorCodigo(String codigo) {
+        Optional<FuncionarioDTO> funcionario=this.funcionarioRepository.findById(codigo);
         if (funcionario.isPresent()){
-            return new ResponseEntity<Funcionario>(funcionario.get(),HttpStatus.OK);
+            return new ResponseEntity<FuncionarioDTO>(funcionario.get(),HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @Override
-    public Funcionario criar(@Validated Funcionario funcionario) {
-       return funcionarioRepository.save(funcionario);
+    public FuncionarioDTO criar(@Validated FuncionarioDTO funcionarioDTO) {
+       return funcionarioRepository.save(funcionarioDTO);
     }
     @Override
     public ResponseEntity<Object> deletar(String codigo) {
-        Optional<Funcionario> funcionarioExiste = this.funcionarioRepository.findById(codigo);
+        Optional<FuncionarioDTO> funcionarioExiste = this.funcionarioRepository.findById(codigo);
         if(funcionarioExiste.isPresent()) {
             this.funcionarioRepository.deleteById(codigo);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -49,16 +47,16 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @Override
-    public Funcionario alterarDadosPorCodigo(String codigo, Funcionario funcionario) {
-        Optional<Funcionario> funcionarioAnterior= this.funcionarioRepository.findById(codigo);
+    public FuncionarioDTO alterarDadosPorCodigo(String codigo, FuncionarioDTO funcionarioDTO) {
+        Optional<FuncionarioDTO> funcionarioAnterior= this.funcionarioRepository.findById(codigo);
         if(funcionarioAnterior.isPresent()){
-            Funcionario funcionarioAlterar=funcionarioAnterior.get();
-            funcionarioAlterar.setNome(funcionario.getNome());
-            funcionarioAlterar.setIdade(funcionario.getIdade());
-            funcionarioAlterar.setSalario(funcionario.getSalario());
-            this.funcionarioRepository.save(funcionarioAlterar);
+            FuncionarioDTO funcionarioDTOAlterar =funcionarioAnterior.get();
+            funcionarioDTOAlterar.setNome(funcionarioDTO.getNome());
+            funcionarioDTOAlterar.setIdade(funcionarioDTO.getIdade());
+            funcionarioDTOAlterar.setSalario(funcionarioDTO.getSalario());
+            this.funcionarioRepository.save(funcionarioDTOAlterar);
 
-            return new ResponseEntity<Funcionario>(funcionarioAlterar, HttpStatus.OK).getBody();
+            return new ResponseEntity<FuncionarioDTO>(funcionarioDTOAlterar, HttpStatus.OK).getBody();
         }
         else{
             return null;}

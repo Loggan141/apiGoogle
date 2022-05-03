@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
-        Person persona=new Person();
+        Persona personas=new Persona();
 
-        persona.setName("Josias");
-        persona.setCpf("025.000");
-        System.out.println(persona.getName());
+        personas.setName("Josias");
+        //personas.setCpf("025.000");
+        System.out.println(personas.getName());
 
 
-        Person pessoa = Person.builder()
+        Persona pessoa = Persona.builder()
                     .name("Joao")
                     .age(25)
                     .cpf("125836988")

@@ -13,11 +13,10 @@ import java.math.BigDecimal;
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 
-public class Employees extends Person{
+public class Employees extends Persona{
     @NonNull
     private BigDecimal salary;
 
     private String occupation;
-
 
 }

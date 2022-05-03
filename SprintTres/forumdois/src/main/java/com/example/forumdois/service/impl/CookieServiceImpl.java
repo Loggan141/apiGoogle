@@ -1,8 +1,6 @@
 package com.example.forumdois.service.impl;
 
 import com.example.forumdois.service.CookieService;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +23,6 @@ public class CookieServiceImpl implements CookieService {
             return Arrays.stream(cookies)
                     .map(c -> c.getName() + "=" + c.getValue()).collect(Collectors.joining(", "));
         }
-
         return "No cookies";
     }
 

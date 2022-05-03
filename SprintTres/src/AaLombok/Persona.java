@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class Person {
+public class Persona {
 
     @Setter(AccessLevel.PRIVATE) private String cpf;
     private String name;
@@ -18,5 +18,4 @@ public class Person {
 
 
 }
-
 
