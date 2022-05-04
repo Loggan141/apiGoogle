@@ -1,12 +1,13 @@
 package com.example.forumdois.service.impl;
 
 import com.example.forumdois.error.ResourceNotFoundException;
-import com.example.forumdois.model.Funcionario;
 import com.example.forumdois.model.mapper.FuncionarioMapper;
+import com.example.forumdois.model.request.FuncionarioRequest;
 import com.example.forumdois.model.response.FuncionarioResponse;
 import com.example.forumdois.repository.FuncionarioRepository;
+import com.example.forumdois.repository.entity.FuncionarioEntity;
 import com.example.forumdois.service.FuncionarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -17,18 +18,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
+@AllArgsConstructor
 public class FuncionarioServiceImpl implements FuncionarioService {
-    @Autowired
+
     private FuncionarioRepository funcionarioRepository;
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     public List<FuncionarioResponse> obterTodos() {
-       List<Funcionario> funcionariosLista = new ArrayList<>(this.funcionarioRepository.findAll());
+       List<FuncionarioEntity> funcionariosLista = new ArrayList<>(this.funcionarioRepository.findAll());
 
        return funcionariosLista.stream()
-               .map((Funcionario value)->FuncionarioMapper.funcionarioToResponse(value))
+               .map((FuncionarioEntity value)->FuncionarioMapper.entityToResponse(value))
                .toList();
     }
 
@@ -37,32 +38,36 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public FuncionarioResponse obterPorCodigo(String codigo) {
 
         return FuncionarioMapper.
-                funcionarioToResponse(this.funcionarioRepository.findById(codigo)
-                        .orElseThrow(() -> new ResourceNotFoundException("Student not found by ID")));
+                entityToResponse(this.funcionarioRepository.findById(codigo)
+                        .orElseThrow(() -> new ResourceNotFoundException("Funcionario not found by ID")));
 
     }
     @Override
-    public Funcionario criar(@Validated Funcionario funcionario) {
-       return funcionarioRepository.save(funcionario);
+    public FuncionarioResponse criar(@Validated FuncionarioRequest funcionarioRequest) {
+        funcionarioRepository.save(FuncionarioMapper.requestToEntity(funcionarioRequest));
+
+        return FuncionarioMapper.requestToReponse(funcionarioRequest);
     }
 
     @Override
-    public String deletar(String codigo) {
-        Optional<Funcionario> funcionarioExiste = this.funcionarioRepository.findById(codigo);
+    public void deletar(String codigo) {
+        Optional<FuncionarioEntity> funcionarioExiste = this.funcionarioRepository.findById(codigo);
          if(funcionarioExiste.isPresent()) {
-            this.funcionarioRepository.deleteById(codigo);
-            return "Usuário deletado.";
-        }
-        else
-            return "Usuario não encontrado";
+             this.funcionarioRepository.deleteById(codigo);
+         }else{
+             funcionarioExiste.orElseThrow(()->new ResourceNotFoundException("Funcionario not found"));
+         }
     }
 
     @Override
-    public Funcionario alterarDadosPorCodigo(String codigo, Funcionario funcionario) {
-         Funcionario funcionarioASalvar = this.funcionarioRepository.findById(codigo)
-                         .orElseThrow(()->new RuntimeException("Não existente"));
-         funcionario.setCodigo(funcionarioASalvar.getCodigo());
-         return funcionarioRepository.save(funcionario);
+    public FuncionarioResponse alterarDadosPorCodigo(String codigo, FuncionarioRequest funcionarioRequest) {
+        FuncionarioEntity funcionarioASalvar = this.funcionarioRepository.findById(codigo)
+                         .orElseThrow(()->new ResourceNotFoundException("Funcionario not found by ID"));
+
+        funcionarioRequest.setCodigo(funcionarioASalvar.getCodigo());
+        funcionarioRepository.save(FuncionarioMapper.requestToEntity(funcionarioRequest));
+        return FuncionarioMapper.requestToReponse(funcionarioRequest);
+
    }
     @Override
     public void deletarTudo() {

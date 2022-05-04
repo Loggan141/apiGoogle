@@ -1,12 +1,10 @@
 package com.example.forumdois.controller;
 
-import com.example.forumdois.model.Funcionario;
-import com.example.forumdois.model.mapper.FuncionarioMapper;
 import com.example.forumdois.model.request.FuncionarioRequest;
 import com.example.forumdois.model.response.FuncionarioResponse;
 import com.example.forumdois.service.FuncionarioService;
 import com.example.forumdois.service.impl.CookieServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/funcionarios")
-
+@AllArgsConstructor
 public class FuncionarioController {
-    @Autowired
-    private FuncionarioService funcionarioService;
+
+    private final FuncionarioService funcionarioService;
 
     @GetMapping
     public List<FuncionarioResponse> obterFuncionario(@RequestParam("codigo") List<String> codigos) {
@@ -34,25 +32,16 @@ public class FuncionarioController {
             return funcionarioResponses;
         }
     }
-
-
-//    @GetMapping("/{codigo}")
-//    public FuncionarioResponse obterCodigo(@PathVariable(value = "codigo") String codigo) {
-//        return this.funcionarioService.obterPorCodigo(codigo);
-//    }
-
     @PostMapping
-    public Funcionario criar(@RequestBody Funcionario funcionario, HttpServletResponse response) {
+    public FuncionarioResponse criar(@RequestBody FuncionarioRequest funcionario, HttpServletResponse response) {
        return this.funcionarioService.criar(funcionario);
     }
+
     @PutMapping("/{codigo}")
     @ResponseStatus(HttpStatus.OK)
     public FuncionarioResponse alterarFuncionarioPeloId(@PathVariable(value = "codigo") String codigo,
-                                                @RequestBody FuncionarioRequest funcionarioRequest){
-
-            var funcionario = FuncionarioMapper.requestToFuncionario(funcionarioRequest);
-
-            return FuncionarioMapper.funcionarioToResponse(funcionarioService.alterarDadosPorCodigo(codigo, funcionario));
+                                                        @RequestBody FuncionarioRequest funcionarioRequest){
+           return funcionarioService.alterarDadosPorCodigo(codigo, funcionarioRequest);
     }
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.OK)
@@ -65,7 +54,6 @@ public class FuncionarioController {
             }
         }
     }
-
     @GetMapping("/cookie")
     @ResponseStatus(HttpStatus.OK)
     public String getReadCookie(HttpServletRequest request){

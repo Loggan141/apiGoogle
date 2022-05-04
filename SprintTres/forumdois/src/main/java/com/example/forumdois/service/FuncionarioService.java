@@ -1,6 +1,6 @@
 package com.example.forumdois.service;
 
-import com.example.forumdois.model.Funcionario;
+import com.example.forumdois.model.request.FuncionarioRequest;
 import com.example.forumdois.model.response.FuncionarioResponse;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ public interface FuncionarioService {
 
     public List<FuncionarioResponse> obterTodos();
     public FuncionarioResponse obterPorCodigo(String codigo);
-    public Funcionario criar(Funcionario funcionario);
-    public String deletar(String codigo);
-    public Funcionario alterarDadosPorCodigo(String codigo, Funcionario funcionario);
+    public FuncionarioResponse criar(FuncionarioRequest funcionarioRequest);
+    public void deletar(String codigo);
+    public FuncionarioResponse alterarDadosPorCodigo(String codigo, FuncionarioRequest funcionarioRequest);
     public void deletarTudo();
 
 }
