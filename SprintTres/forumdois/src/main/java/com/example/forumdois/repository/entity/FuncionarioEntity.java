@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Document("Funcionario")
+@Document
 public class FuncionarioEntity {
 
     @Id

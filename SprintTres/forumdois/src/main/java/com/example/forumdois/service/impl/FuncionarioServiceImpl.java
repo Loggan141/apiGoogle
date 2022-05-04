@@ -6,7 +6,6 @@ import com.example.forumdois.model.mapper.FuncionarioMapper;
 import com.example.forumdois.model.response.FuncionarioResponse;
 import com.example.forumdois.repository.FuncionarioRepository;
 import com.example.forumdois.service.FuncionarioService;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@NoArgsConstructor
+
 public class FuncionarioServiceImpl implements FuncionarioService {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
@@ -57,6 +56,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         else
             return "Usuario não encontrado";
     }
+
     @Override
     public Funcionario alterarDadosPorCodigo(String codigo, Funcionario funcionario) {
          Funcionario funcionarioASalvar = this.funcionarioRepository.findById(codigo)
