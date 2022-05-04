@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document //é o entity so que para mongodb
 //identifica um objeto para persistir no banco de dados mongodb
-public class FuncionarioDTO {
+public class Funcionario {
 
     @Id
     private String codigo;

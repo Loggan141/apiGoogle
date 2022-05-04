@@ -1,6 +1,5 @@
 package com.example.forumdois.service;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

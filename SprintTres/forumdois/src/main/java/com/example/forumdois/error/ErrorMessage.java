@@ -1,4 +1,4 @@
-package com.example.forumdois.response;
+package com.example.forumdois.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,66 +1,82 @@
 package com.example.forumdois.controller;
 
-import com.example.forumdois.model.FuncionarioDTO;
+import com.example.forumdois.model.Funcionario;
+import com.example.forumdois.model.mapper.FuncionarioMapper;
+import com.example.forumdois.model.request.FuncionarioRequest;
+import com.example.forumdois.model.response.FuncionarioResponse;
 import com.example.forumdois.service.FuncionarioService;
 import com.example.forumdois.service.impl.CookieServiceImpl;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/funcionarios")
-//teste
+@NoArgsConstructor
 public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
-    @GetMapping
-    public List<FuncionarioDTO> obterTodos() {
-        return this.funcionarioService.obterTodos();
-    }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<FuncionarioDTO> obterCodigo(@PathVariable(value = "codigo") String codigo) {
-        return this.funcionarioService.obterPorCodigo(codigo);
+    public List<FuncionarioResponse> obterFuncionario(@PathVariable(value = "codigo") String codigo) {
+        if(codigo==null) {
+           return this.funcionarioService.obterTodos();
+        }else{
+           return Arrays.asList(funcionarioService.obterPorCodigo(codigo));
+        }
     }
 
-    @PostMapping
+//    @GetMapping("/{codigo}")
+//    public FuncionarioResponse obterCodigo(@PathVariable(value = "codigo") String codigo) {
+//        return this.funcionarioService.obterPorCodigo(codigo);
+//    }
 
-    public FuncionarioDTO criar(@RequestBody FuncionarioDTO funcionarioDTO, HttpServletResponse response) {
-        this.funcionarioService.criar(funcionarioDTO);
-        return new ResponseEntity<>(funcionarioDTO, HttpStatus.CREATED).getBody();
+    @PostMapping
+    public Funcionario criar(@RequestBody Funcionario funcionario, HttpServletResponse response) {
+       return this.funcionarioService.criar(funcionario);
     }
 
     @PutMapping("/{codigo}")
-    public FuncionarioDTO alterarFuncionarioPeloId(@PathVariable(value = "codigo") String codigo,
-                                                   @RequestBody FuncionarioDTO funcionarioDTO){
-            return this.funcionarioService.alterarDadosPorCodigo(codigo, funcionarioDTO);
+    @ResponseStatus(HttpStatus.OK)
+    public FuncionarioResponse alterarFuncionarioPeloId(@PathVariable(value = "codigo") String codigo,
+                                                @RequestBody FuncionarioRequest funcionarioRequest){
+
+            var funcionario = FuncionarioMapper.requestToFuncionario(funcionarioRequest);
+
+            return FuncionarioMapper.funcionarioToResponse(funcionarioService.alterarDadosPorCodigo(codigo, funcionario));
     }
-    @DeleteMapping("/deleteById")
-    public void deletarPorCodigo(@RequestParam("codigo") List<String> codigos) {
-          for(String codigo:codigos){
-              this.funcionarioService.deletar(codigo);
-          }
-    }
-    @DeleteMapping("/deleteAllFuncionarios")
-    public void deletarTudo() {
-        this.funcionarioService.deletarTudo();
+    @DeleteMapping("/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public void deletar(@RequestParam("codigo") List<String> codigos) {
+
+        if(codigos.isEmpty()){
+            this.funcionarioService.deletarTudo();
+        }else {
+            for (String codigo : codigos) {
+                this.funcionarioService.deletar(codigo);
+            }
+        }
+
     }
 
-    @GetMapping("/Cookie")
+
+    @GetMapping("/cookie")
+    @ResponseStatus(HttpStatus.OK)
     public String getReadCookie(HttpServletRequest request){
         return CookieServiceImpl.readAllCookies(request);
     }
 
-    @PostMapping("/Cookie")
+    @PostMapping("/cookie")
+    @ResponseStatus(HttpStatus.CREATED)
     public void createCookie(HttpServletResponse response){
         CookieServiceImpl.setCookie(response, 30);
     }
 
 
-    //todolist
 }
