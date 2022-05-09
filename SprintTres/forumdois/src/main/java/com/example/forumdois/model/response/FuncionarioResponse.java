@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 public class FuncionarioResponse {
 
-
+    @NotBlank
     private String codigo;
 
     private String nome;

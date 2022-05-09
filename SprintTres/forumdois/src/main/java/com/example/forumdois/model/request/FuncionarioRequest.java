@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,10 +12,10 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
 
 public class FuncionarioRequest {
 
+        @NotBlank(message = "Codigo vazio")
         private String codigo;
         @NotBlank(message = "Nome vazio")
         private String nome;

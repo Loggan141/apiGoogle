@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
 
-@RequestMapping("/api/v1/funcionarios")
+@RequestMapping("/api/v2/funcionarios")
 @AllArgsConstructor
-public class FuncionarioController {
+public class FuncionarioControllerV2 {
+
     private final FuncionarioService funcionarioService;
+
     @GetMapping
     public List<FuncionarioResponse> obterFuncionario(@RequestParam("codigo") List<String> codigos) {
         return this.funcionarioService.obterTodos(codigos);
@@ -36,6 +39,7 @@ public class FuncionarioController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/delete")
+
     public void deletar(@RequestParam("codigo") List<String> codigos) {
         this.funcionarioService.deletar(codigos);
     }
@@ -53,11 +57,5 @@ public class FuncionarioController {
         CookieService.setCookie(response, 30);
     }
 
-    //TODO::statuscode
-    //      refactorar a controller diminuir ****OK
-    //      exceptions**TERMINANDO**
-    //      javax validation - --
-    //      versionamento de contrato de API**ENTENDIDO AGORA APLICAR**
-    //      jackson manipulaçao de datas**APLICANDO JÀ**
 
 }

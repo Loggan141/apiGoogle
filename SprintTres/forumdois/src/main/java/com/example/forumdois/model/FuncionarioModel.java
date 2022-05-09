@@ -1,15 +1,18 @@
 package com.example.forumdois.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+
+import java.time.LocalDateTime;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-//é o entity so que para mongodb
-//identifica um objeto para persistir no banco de dados mongodb
-public class Funcionario {
+
+public class FuncionarioModel {
 
     @Id
     private String codigo;
@@ -19,5 +22,7 @@ public class Funcionario {
     private Integer idade;
     @NonNull
     private Double salario;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private LocalDateTime diaDeCriacao;
 
 }

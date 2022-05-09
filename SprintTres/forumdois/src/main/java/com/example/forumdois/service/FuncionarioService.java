@@ -1,19 +1,66 @@
 package com.example.forumdois.service;
 
+import com.example.forumdois.exception.ResourceNotFoundException;
+import com.example.forumdois.model.mapper.FuncionarioMapper;
 import com.example.forumdois.model.request.FuncionarioRequest;
 import com.example.forumdois.model.response.FuncionarioResponse;
+import com.example.forumdois.repository.FuncionarioRepository;
+import com.example.forumdois.repository.entity.FuncionarioEntity;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public interface FuncionarioService {
+@AllArgsConstructor
+public class FuncionarioService {
 
-    public List<FuncionarioResponse> obterTodos();
-    public FuncionarioResponse obterPorCodigo(String codigo);
-    public FuncionarioResponse criar(FuncionarioRequest funcionarioRequest);
-    public void deletar(String codigo);
-    public FuncionarioResponse alterarDadosPorCodigo(String codigo, FuncionarioRequest funcionarioRequest);
-    public void deletarTudo();
+    private FuncionarioRepository funcionarioRepository;
 
+    public List<FuncionarioResponse> obterTodos(List<String> codigos) {
+       if(codigos.isEmpty()){
+         return this.funcionarioRepository.findAll()
+                                          .stream()
+                                          .map(FuncionarioMapper::entityToResponse)
+                                          .collect(Collectors.toList());
+       }else
+           return this.funcionarioRepository.findAllByCodigoIn(codigos)
+                               .stream()
+                               .map(FuncionarioMapper::entityToResponse)
+                               .collect(Collectors.toList());
+    }
+
+    public FuncionarioResponse obterPorCodigo(String codigo) {
+        return FuncionarioMapper.
+                entityToResponse(this.funcionarioRepository.findById(codigo)
+                        .orElseThrow(() -> new ResourceNotFoundException("Funcionario not found by ID")));
+    }
+    public FuncionarioResponse criar(@Validated FuncionarioRequest funcionarioRequest) {
+        funcionarioRepository.save(FuncionarioMapper.requestToEntity(funcionarioRequest));
+        return FuncionarioMapper.requestToReponse(funcionarioRequest);
+    }
+
+    public void deletar(List<String> codigos) {
+        if (codigos.isEmpty()) {
+            this.funcionarioRepository.deleteAll();
+        } else {
+            this.funcionarioRepository.findAllByCodigoIn(codigos)
+                    .stream()
+                    .map(FuncionarioEntity::getCodigo)
+                    .toList()
+                    .forEach(value -> funcionarioRepository.deleteById(value));                                              ;
+        }
+
+    }
+    public FuncionarioResponse alterarDadosPorCodigo(String codigo, FuncionarioRequest funcionarioRequest) {
+        FuncionarioEntity funcionarioASalvar = this.funcionarioRepository.findById(codigo)
+                         .orElseThrow(()->new ResourceNotFoundException("Funcionario not found by ID"));
+
+        funcionarioRequest.setCodigo(funcionarioASalvar.getCodigo());
+        funcionarioRepository.save(FuncionarioMapper.requestToEntity(funcionarioRequest));
+        return FuncionarioMapper.requestToReponse(funcionarioRequest);
+
+   }
 }

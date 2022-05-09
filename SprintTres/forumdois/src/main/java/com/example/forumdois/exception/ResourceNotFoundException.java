@@ -1,4 +1,4 @@
-package com.example.forumdois.error;
+package com.example.forumdois.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
