@@ -8,7 +8,6 @@ import com.example.forumdois.repository.FuncionarioRepository;
 import com.example.forumdois.repository.entity.FuncionarioEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,14 +34,18 @@ public class FuncionarioService {
     public FuncionarioResponse obterPorCodigo(String codigo) {
         return FuncionarioMapper.
                 entityToResponse(this.funcionarioRepository.findById(codigo)
-                        .orElseThrow(() -> new ResourceNotFoundException("Funcionario not found by ID")));
+                                     .orElseThrow(() -> new ResourceNotFoundException("Funcionario not found by ID")));
     }
-    public FuncionarioResponse criar(@Validated FuncionarioRequest funcionarioRequest) {
-        funcionarioRepository.save(FuncionarioMapper.requestToEntity(funcionarioRequest));
-        return FuncionarioMapper.requestToReponse(funcionarioRequest);
+
+    public FuncionarioResponse criar(FuncionarioRequest funcionarioRequest) {
+
+        return FuncionarioMapper.entityToResponse(this.funcionarioRepository
+                                                      .save(FuncionarioMapper
+                                                      .requestToEntity(funcionarioRequest)));
     }
 
     public void deletar(List<String> codigos) {
+
         if (codigos.isEmpty()) {
             this.funcionarioRepository.deleteAll();
         } else {

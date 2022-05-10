@@ -1,12 +1,9 @@
 package com.example.forumdois.model.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @Builder
 @Data
@@ -15,14 +12,15 @@ import javax.validation.constraints.NotNull;
 
 public class FuncionarioRequest {
 
-        @NotBlank(message = "Codigo vazio")
         private String codigo;
-        @NotBlank(message = "Nome vazio")
+        @NotBlank @NotNull @Min(3) @Max(10)
         private String nome;
-        @NotNull(message = "Idade vazia")
+        @Min(1) @Max(2)
         private Integer idade;
-        @NotNull(message = "Salário vazio")
+        @Positive(message = "Salário não pode ser negativo!")
         private Double salario;
+        @CPF
+        private String cpf;
 
 
     }

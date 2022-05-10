@@ -17,6 +17,7 @@ public class FuncionarioMapper {
                 .nome(funcionarioRequest.getNome())
                 .idade(funcionarioRequest.getIdade())
                 .salario(funcionarioRequest.getSalario())
+                .cpf(funcionarioRequest.getCpf())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class FuncionarioMapper {
                 .nome(funcionarioEntity.getNome())
                 .idade(funcionarioEntity.getIdade())
                 .salario(funcionarioEntity.getSalario())
+                .cpf(funcionarioEntity.getCpf())
                 .build();
     }
 
@@ -35,6 +37,7 @@ public class FuncionarioMapper {
                 .nome(funcionarioRequest.getNome())
                 .idade(funcionarioRequest.getIdade())
                 .salario(funcionarioRequest.getSalario())
+                .cpf(funcionarioRequest.getCpf())
                 .build();
     }
 

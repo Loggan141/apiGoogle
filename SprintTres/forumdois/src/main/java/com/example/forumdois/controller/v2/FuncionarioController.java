@@ -1,4 +1,4 @@
-package com.example.forumdois.controller;
+package com.example.forumdois.controller.v2;
 
 import com.example.forumdois.model.request.FuncionarioRequest;
 import com.example.forumdois.model.response.FuncionarioResponse;
@@ -10,17 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.http.HttpResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 
 @RequestMapping("/api/v2/funcionarios")
 @AllArgsConstructor
-public class FuncionarioControllerV2 {
-
+public class FuncionarioController {
     private final FuncionarioService funcionarioService;
-
     @GetMapping
     public List<FuncionarioResponse> obterFuncionario(@RequestParam("codigo") List<String> codigos) {
         return this.funcionarioService.obterTodos(codigos);
@@ -28,9 +26,10 @@ public class FuncionarioControllerV2 {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FuncionarioResponse criar(@RequestBody FuncionarioRequest funcionario) {
+    public FuncionarioResponse criar(@Valid @RequestBody FuncionarioRequest funcionario) {
         return this.funcionarioService.criar(funcionario);
-        }
+    }
+
     @PutMapping("/{codigo}")
     public FuncionarioResponse alterarFuncionarioPeloId(@PathVariable(value = "codigo") String codigo,
                                                         @RequestBody FuncionarioRequest funcionarioRequest){
@@ -39,7 +38,6 @@ public class FuncionarioControllerV2 {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/delete")
-
     public void deletar(@RequestParam("codigo") List<String> codigos) {
         this.funcionarioService.deletar(codigos);
     }
@@ -57,5 +55,11 @@ public class FuncionarioControllerV2 {
         CookieService.setCookie(response, 30);
     }
 
+    // TODO: statuscode
+    //      refactorar a controller diminuir ****OK
+    //      exceptions**TERMINANDO**
+    //      javax validation - --
+    //      versionamento de contrato de API**ENTENDIDO AGORA APLICAR**
+    //      jackson manipulaçao de datas**APLICANDO JÀ**
 
 }

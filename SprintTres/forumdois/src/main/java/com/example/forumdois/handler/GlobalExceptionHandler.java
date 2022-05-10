@@ -51,6 +51,7 @@ public class GlobalExceptionHandler {
                 .developerMessage(exception.getClass().getName())
                 .build(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<?> handleNullPointerException(
             NullPointerException exception){

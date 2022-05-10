@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+//@RestController
 
 @RequestMapping("/api/v1/funcionarios")
 @AllArgsConstructor
@@ -25,9 +26,10 @@ public class FuncionarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FuncionarioResponse criar(@RequestBody FuncionarioRequest funcionario) {
+    public FuncionarioResponse criar(@Valid @RequestBody FuncionarioRequest funcionario) {
         return this.funcionarioService.criar(funcionario);
-        }
+    }
+
     @PutMapping("/{codigo}")
     public FuncionarioResponse alterarFuncionarioPeloId(@PathVariable(value = "codigo") String codigo,
                                                         @RequestBody FuncionarioRequest funcionarioRequest){
@@ -53,7 +55,7 @@ public class FuncionarioController {
         CookieService.setCookie(response, 30);
     }
 
-    //TODO::statuscode
+    // TODO: statuscode
     //      refactorar a controller diminuir ****OK
     //      exceptions**TERMINANDO**
     //      javax validation - --
