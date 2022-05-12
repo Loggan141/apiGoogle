@@ -1,21 +1,23 @@
 package challengeStream;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 @Data
-@NoArgsConstructor
+@Builder
 
  public class Person{
         private String name;
         private SexEnum sex;
-        private Professional Professional;
+        private Professional professional;
 
-    static List<Person> people = Arrays.asList(
+      static List<Person> people = Arrays.asList(
             new Person("Miguel Ballard", SexEnum.MALE, new Professional(1, "ANALISTA", BigDecimal.valueOf(3500.00))),
             new Person("Davi Harmon", SexEnum.FEMALE, new Professional(1, "ENGENHEIRO DE SOFTWARE", BigDecimal.valueOf(2500.00))),
             new Person("Gabriel Schwartz", SexEnum.MALE, new Professional(1, "ANALISTA", BigDecimal.valueOf(1500.00))),
@@ -72,10 +74,10 @@ import java.util.List;
             new Person("Roberat Yu", SexEnum.FEMALE, new Professional(1, "ANALISTA", BigDecimal.valueOf(25520.00))),
             new Person("Isis Fraser", SexEnum.FEMALE, new Professional(1, "ENGENHEIRO DE SOFTWARE", BigDecimal.valueOf(4520.00)))
     );
-    public Person(String name, SexEnum sex, challengeStream.Professional professional) {
+    public Person(String name, SexEnum sex, Professional professional) {
         this.name = name;
         this.sex = sex;
-        Professional = professional;
+        this.professional = professional;
     }
     private String getNome() {
         return this.name;
@@ -85,7 +87,18 @@ import java.util.List;
     public String toString() {
         return  "[name='" + name + '\'' +
                 ", sex=" + sex +
-                ", Professional : " + Professional;
+                ", Professional : " + professional;
     }
+
+
+    public static List<Person> filterByProfessional(String profissao, List<Person> persons){
+        List<Person> lista= persons;
+        var listaRetorno = lista.stream()
+                .filter(person -> person.getProfessional().getName().equals(profissao.toUpperCase()))
+                .toList();
+
+        return listaRetorno;
+    }
+
 }
 

@@ -1,24 +1,30 @@
 package challengeStream;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 
-@AllArgsConstructor
 @Data
-
+@Builder
 public class Professional {
 
     private Integer id;
     private String name;
     private BigDecimal salary;
 
-//    Professional engSoftware = new Professional(1, "ENGENHEIRO DE SOFTWARE", BigDecimal.valueOf(3500.00));
-//    Professional gerente = new Professional(1, "GERENTE", BigDecimal.valueOf(2900.00));
-//    Professional analista = new Professional(1, "ANALISTA", BigDecimal.valueOf(3800.00));
-//    Professional desenvolvedor = new Professional(1, "DESENVOLVEDOR", BigDecimal.valueOf(3800.00));
+    public Professional(Integer id, String name, BigDecimal salary){
+        this.id=id;
+        this.name=name;
+        this.salary=salary;
+    }
+    public Professional(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @Override
     public String toString() {
@@ -30,8 +36,5 @@ public class Professional {
     public BigDecimal getSalary() {
         return this.salary;
     }
-//    @Override
-//    public int compareTo(Professional outroProfessional) {
-//        return this.salary.compareTo(outroProfessional.getSalary());
-//    }
+
 }
