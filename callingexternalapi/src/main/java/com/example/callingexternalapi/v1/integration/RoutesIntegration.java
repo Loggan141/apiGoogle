@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 
 public class RoutesIntegration {
-	private static final String API_KEY = "AIzaSyBHPJ4BG_aSyl4DAul3lO5nKPNdURmO-Es";
+	private static final String API_KEY = "AIzaSyBHPJ4BG_aSyl4DnKPNdURmO-Es";
 
 	@Autowired
 	private final RestTemplate restTemplate;
@@ -21,7 +21,7 @@ public class RoutesIntegration {
     public RoutesIntegrationResponse getRoutes(RoutesIntegrationRequest routesIntegrationRequest){
 
 	//https://maps.googleapis.com/maps/api/distancematrix/json?origins=CANOAS
-		// &destinations=MARAU&units=imperial&key=AIzaSyBHPJ4BG_aSyl4DAul3lO5nKPNdURmO-Es
+		// &destinations=MARAU&units=imperial&key=AIzaSyBHPJ4BG_aSylNdURmO-Es
 
 		UriComponents uri = UriComponentsBuilder.newInstance()
 				.scheme("https")
