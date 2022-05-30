@@ -19,8 +19,6 @@ import java.util.List;
 })
 
 public class Row {
-
     @JsonProperty("elements")
     private List<Element> elements;
-
 }

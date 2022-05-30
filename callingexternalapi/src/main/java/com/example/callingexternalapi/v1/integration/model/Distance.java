@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.annotation.Generated;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

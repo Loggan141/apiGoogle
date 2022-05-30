@@ -11,9 +11,11 @@ import java.util.List;
 @Data
 public class RoutesResponse {
 
-    private List<String> origin_addresses;
-    private List<String> destination_addresses;
+    private List<String> originAddresses;
+    private List<String> destinationAddresses;
     private Distance distance;
     private Duration duration;
+    private double freightCost;
+
 
 }

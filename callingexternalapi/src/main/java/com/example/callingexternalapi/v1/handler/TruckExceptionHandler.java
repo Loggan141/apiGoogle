@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class TruckExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(TruckNotFoundException.class)
-    public ResponseEntity<?> handleTruckNotFound(TruckNotFoundException e){
+    public ResponseEntity<ExceptionDetails> handleTruckNotFound(TruckNotFoundException e){
         return new ResponseEntity<>(ExceptionDetails.builder()
                 .title("Bad Request : NOT FOUND")
                 .detail(e.getMessage())

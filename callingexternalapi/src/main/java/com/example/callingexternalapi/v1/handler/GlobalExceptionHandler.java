@@ -29,10 +29,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<?> handleMissingServletRequestParameterException(
+    public ResponseEntity<ExceptionDetails> handleMissingServletRequestParameterException(
             MissingServletRequestParameterException exception){
-        return new ResponseEntity<>(ExceptionDetails.builder()
-                .title("Bad Request : Check the documentation")
+        return new ResponseEntity<> (ExceptionDetails.builder()
+                .title("NOT FOUND : Check the documentation")
                 .detail(exception.getMessage())
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.NOT_FOUND.value())
@@ -42,10 +42,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<?> handleHttpMessageNotReadableException(
+    public ResponseEntity<ExceptionDetails> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException exception){
         return new ResponseEntity<>(ExceptionDetails.builder()
-                .title("Bad Request : Check the documentation")
+                .title("Bad Request : Not Readable")
                 .detail(exception.getMessage())
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
@@ -55,47 +55,48 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<?> handleNullPointerException(
+    public ResponseEntity<ExceptionDetails> handleNullPointerException(
             NullPointerException exception){
         return new ResponseEntity<>(ExceptionDetails.builder()
-                .title("Bad Request : Check the documentation")
+                .title("Bad Request : Null")
                 .detail(exception.getMessage())
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .title("Something is wrong")
+                .title("Cannot be Null")
                 .developerMessage(exception.getClass().getName())
                 .build(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValidException(
+    public ResponseEntity<ExceptionDetails> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException exception){
         return new ResponseEntity<>(ExceptionDetails.builder()
-                .title("Bad Request : Check the documentation")
+                .title("Bad Request : Argument Not Valid")
                 .detail(exception.getMessage())
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .title("Something is wrong")
+                .title("Not valid argument")
                 .developerMessage(exception.getClass().getName())
                 .build(), HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(UnexpectedTypeException.class)
-    public ResponseEntity<?> handleUnexpectedTypeException(
+    public ResponseEntity<ExceptionDetails> handleUnexpectedTypeException(
             UnexpectedTypeException exception){
         return new ResponseEntity<>(ExceptionDetails.builder()
-                .title("Bad Request : Check the documentation")
+                .title("Bad Request : Wrong Type")
                 .detail(exception.getMessage())
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.NOT_ACCEPTABLE.value())
-                .title("Something is wrong")
+                .title("Wrong type")
                 .developerMessage(exception.getClass().getName())
                 .build(), HttpStatus.NOT_ACCEPTABLE);
     }
+
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> handleIllegalArgumentException(
+    public ResponseEntity<ExceptionDetails> handleIllegalArgumentException(
             IllegalArgumentException exception){
         return new ResponseEntity<>(ExceptionDetails.builder()
-                .title("Bad Request : Check the documentation")
+                .title("Bad Request : Invalid Argument")
                 .detail(exception.getMessage())
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.NOT_ACCEPTABLE.value())

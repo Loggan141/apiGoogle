@@ -1,6 +1,5 @@
 package com.example.callingexternalapi.v1.integration.model.response;
 
-import com.example.callingexternalapi.v1.integration.model.*;
 import com.example.callingexternalapi.v1.integration.model.Row;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -21,7 +21,7 @@ import java.util.List;
 })
 
 public class RoutesIntegrationRequest {
-
+        
     @JsonProperty("destination_addresses")
     private List<String> destinationAddresses;
     @JsonProperty("origin_addresses")

@@ -14,13 +14,14 @@ import java.util.List;
 public class RoutesEntity {
 
     @JsonProperty("origin")
-    private List<String> origin_addresses;
+    private List<String> originAddresses;
     @JsonProperty("destino")
-    private List<String> destination_addresses;
+    private List<String> destinationAddresses;
     @JsonProperty("distancia")
     private Distance distance;
     @JsonProperty("duracao_percurso")
     private Duration duration;
-
+    @JsonProperty("custo_frete")
+    private double freightCost;
 
 }

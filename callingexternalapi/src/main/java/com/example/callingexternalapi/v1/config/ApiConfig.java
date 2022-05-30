@@ -12,20 +12,19 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class ApiConfig {
-    private static final String dateFormat = "yyyy-MM-dd";
-    private static final String dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
         return builder -> {
-            builder.simpleDateFormat(dateTimeFormat);
-            builder.serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(dateFormat)));
-            builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(dateTimeFormat)));
+            builder.simpleDateFormat(DATE_TIME_FORMAT);
+            builder.serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+            builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
         };
     }
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
-
         return builder.build();
     }
 

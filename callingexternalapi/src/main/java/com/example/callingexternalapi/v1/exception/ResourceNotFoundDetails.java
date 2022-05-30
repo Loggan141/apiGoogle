@@ -1,6 +1,5 @@
 package com.example.callingexternalapi.v1.exception;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
