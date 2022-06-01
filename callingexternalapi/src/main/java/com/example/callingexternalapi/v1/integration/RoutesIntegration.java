@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 
 public class RoutesIntegration {
-	private static final String API_KEY = "AIzaSyBHPJ4BG_aSlO5nKPNdURmO-Es";
+	private static final String API_KEY = "AIzaSyBHPJ4nKPNdURmO-Es";
 
 	@Autowired
 	private final RestTemplate restTemplate;
