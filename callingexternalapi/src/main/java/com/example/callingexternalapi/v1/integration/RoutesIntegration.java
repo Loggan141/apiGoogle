@@ -3,6 +3,7 @@ package com.example.callingexternalapi.v1.integration;
 import com.example.callingexternalapi.v1.integration.model.request.RoutesIntegrationRequest;
 import com.example.callingexternalapi.v1.integration.model.response.RoutesIntegrationResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -12,7 +13,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 
 public class RoutesIntegration {
-	private static final String API_KEY = "AIzaSyBHPJ4BG_aSyl4DAul3lO5nKPNdURmO-Es";
+	private static final String API_KEY = "AIzaSyBHPJ4nKPNdURmO-Es";
+
+	@Autowired
 	private final RestTemplate restTemplate;
 
     public RoutesIntegrationResponse getRoutes(RoutesIntegrationRequest routesIntegrationRequest){
