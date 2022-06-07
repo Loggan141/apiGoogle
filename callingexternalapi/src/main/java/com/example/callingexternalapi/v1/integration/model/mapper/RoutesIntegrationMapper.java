@@ -1,13 +1,11 @@
 package com.example.callingexternalapi.v1.integration.model.mapper;
 
-import com.example.callingexternalapi.v1.integration.RoutesIntegration;
 import com.example.callingexternalapi.v1.integration.model.Distance;
 import com.example.callingexternalapi.v1.integration.model.Duration;
 import com.example.callingexternalapi.v1.integration.model.Element;
 import com.example.callingexternalapi.v1.integration.model.request.RoutesIntegrationRequest;
 import com.example.callingexternalapi.v1.integration.model.response.RoutesIntegrationResponse;
 import com.example.callingexternalapi.v1.model.routes.RoutesRequest;
-import com.example.callingexternalapi.v1.model.routes.RoutesResponse;
 import com.example.callingexternalapi.v1.repository.entity.RoutesEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

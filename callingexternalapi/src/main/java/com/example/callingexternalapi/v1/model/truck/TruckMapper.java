@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Builder
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 
 public class TruckMapper {
 
@@ -17,8 +17,7 @@ public class TruckMapper {
                 .routesEntity(truckRequest.getRoutesEntity())
                 .build();
         }
-
-    public static TruckEntity truckResponseToEntity(TruckResponse truckResponse){
+      public static TruckEntity truckResponseToEntity(TruckResponse truckResponse){
         return TruckEntity.builder()
                 .id(truckResponse.getId())
                 .name(truckResponse.getName())

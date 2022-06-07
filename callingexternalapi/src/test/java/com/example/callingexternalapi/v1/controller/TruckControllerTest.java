@@ -2,6 +2,7 @@ package com.example.callingexternalapi.v1.controller;
 
 import com.example.callingexternalapi.v1.controller.util.TruckCreator;
 import com.example.callingexternalapi.v1.controller.util.TruckCreatorMapper;
+import com.example.callingexternalapi.v1.exception.TruckNotFoundException;
 import com.example.callingexternalapi.v1.model.truck.TruckRequest;
 import com.example.callingexternalapi.v1.model.truck.TruckResponse;
 import com.example.callingexternalapi.v1.repository.entity.TruckEntity;
@@ -21,6 +22,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.List;
+
+
 @ExtendWith(SpringExtension.class)//através do springextension diz que vou usr o Junity com o Spring
 class TruckControllerTest {
     @InjectMocks //Quando quer testar a classe em si, por exemplo,  a TruckController
@@ -39,21 +42,19 @@ class TruckControllerTest {
                  .thenReturn(truckEntities.stream()
                                           .map(truckCreatorMapper::creatorTruckEntityToResponse)
                                           .toList());
-
         BDDMockito.when(truckServiceMock
                         .updateDataByIdOrThrowsTruckNotFoundException(ArgumentMatchers.any(TruckRequest.class)))
                         .thenReturn(truckCreatorMapper.creatorTruckEntityToResponse());
 
         BDDMockito.when(truckServiceMock.createTruck(ArgumentMatchers.any(TruckRequest.class)))
                                         .thenReturn(truckCreatorMapper.creatorTruckSavedToResponse());
-
         //Quando retornar void:
           BDDMockito.doNothing().when(truckServiceMock).deleteTruckByIdOrAll(ArgumentMatchers.anyList());
           BDDMockito.doNothing().when(truckServiceMock).deleteRouteTruckByIdOrThrowsTruckNotFoundException(ArgumentMatchers.any());
 
 
-
     }
+
     @Test
     @DisplayName("FindAll or By Id - Returns list of Trucks when successful")
     void truckFindAllById_ReturnsListOfTrucks_WhenSuccessful(){
@@ -63,8 +64,7 @@ class TruckControllerTest {
         List<String> idTest = List.of("12321F");
 
         List<TruckResponse> truckResponses = truckController.getTrucks(idTest)
-                                                            .getBody();
-
+                                                            ;
         Assertions.assertThat(truckResponses)
                             .isNotNull()
                             .isNotEmpty()
@@ -82,29 +82,26 @@ class TruckControllerTest {
 
         List<String> id = List.of("312321");
 
-        List<TruckResponse> truckResponses = truckController.getTrucks(id).getBody();
+        List<TruckResponse> truckResponses = truckController.getTrucks(id);
 
-        Assertions.assertThat(truckResponses).isNotNull()
-                                             .isEmpty();
+        Assertions.assertThat(truckResponses).isNotNull().isEmpty();
      }
 
     @Test
-    @DisplayName("Save a Truck - Returns Truck when successful")
+    @DisplayName("Save a Truck - Returns Truck When successful")
     void SaveTheTruck_ReturnsTruck_WhenTruckIsSuccessful(){
         TruckCreator truckCreator = new TruckCreator();
-
         TruckCreatorMapper truckCreatorMapper = new TruckCreatorMapper();
 
         TruckResponse truckResponses = truckController.createNewTruck(truckCreatorMapper.creatorTruckSavedToRequest());
 
-        Assertions.assertThat(truckResponses).isNotNull()
-                                             .isEqualTo(truckCreator.createTruckToBeSaved());
+        Assertions.assertThat(truckResponses).isNotNull().isEqualTo(truckCreatorMapper.creatorTruckSavedToResponse());
     }
 
     @Test
     @DisplayName("Update a Truck - Returns the updated Truck when successful")
     void updateTheTruck_ReturnsUpdatedTruck_WhenTruckIsSuccessful(){
-        TruckCreator truckCreator = new TruckCreator();
+
         TruckCreatorMapper truckCreatorMapper = new TruckCreatorMapper();
 
         TruckResponse truckResponse = truckController.updateTruckData(truckCreatorMapper.creatorTruckEntityToRequest());
@@ -112,10 +109,25 @@ class TruckControllerTest {
         Assertions.assertThat(truckResponse).isNotNull()
                                             .isEqualTo(truckCreatorMapper.creatorTruckEntityToResponse());
      }
+    @Test
+    @DisplayName("Update a Truck - Throw TruckNotFoundException")
+    void updateTheTruck_ThrowTruckNotFoundException_WhenTruckNotSuccessful() {
+        BDDMockito.when(truckServiceMock
+                        .updateDataByIdOrThrowsTruckNotFoundException(ArgumentMatchers.any(TruckRequest.class)))
+                .thenThrow(new TruckNotFoundException());
+
+        TruckCreatorMapper truckCreatorMapper = new TruckCreatorMapper();
+
+        var truckRequest = truckCreatorMapper.creatorTruckEntityToRequest();
+
+        Assertions.assertThatExceptionOfType(TruckNotFoundException.class)
+                .isThrownBy(() -> truckController.updateTruckData(truckRequest));
+
+    }
 
     @Test
     @DisplayName("Delete a Truck when successful")
-    void delete_RemovesTruck_WhenTruckIsSuccessful(){
+    void delete_RemovesTruck_WhenSuccessful(){
         List<String> anyId = List.of("1");
 
         Assertions.assertThatCode(()->truckController.deleteTruck(anyId)).doesNotThrowAnyException();
@@ -138,16 +150,5 @@ class TruckControllerTest {
 
         Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
      }
-
-
-
-
-
-
-
-
-
-
-
 
 }

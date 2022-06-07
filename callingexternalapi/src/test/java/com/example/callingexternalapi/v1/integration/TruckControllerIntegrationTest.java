@@ -1,120 +1,230 @@
 package com.example.callingexternalapi.v1.integration;
-import com.example.callingexternalapi.v1.controller.TruckController;
-import com.example.callingexternalapi.v1.controller.util.TruckCreator;
+
+import com.example.callingexternalapi.v1.exception.TruckNotFoundException;
+import com.example.callingexternalapi.v1.integration.model.Distance;
+import com.example.callingexternalapi.v1.integration.model.Duration;
+import com.example.callingexternalapi.v1.integration.model.request.RoutesIntegrationRequest;
+import com.example.callingexternalapi.v1.model.truck.TruckRequest;
 import com.example.callingexternalapi.v1.repository.TruckRepository;
+import com.example.callingexternalapi.v1.repository.entity.RoutesEntity;
 import com.example.callingexternalapi.v1.repository.entity.TruckEntity;
-import com.example.callingexternalapi.v1.service.TruckService;
-import lombok.AllArgsConstructor;
-import org.assertj.core.api.Assertions;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
-//@DataMongoTest
-@AllArgsConstructor
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@WebAppConfiguration
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+@AutoConfigureMockMvc //Sobe todos o contexto da aplicação
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TruckController.class, TruckService.class, TruckRepository.class})
+@SpringBootTest
+
 class TruckControllerIntegrationTest {
+    @Autowired
+    private MockMvc mockMvc; //testing server-side
+    @Autowired
+    private ObjectMapper objectMapper;
+    @MockBean
+    private RoutesIntegration routesIntegrationMock;
+    @MockBean
+    private TruckRepository truckRepositoryMock;
 
-    private TruckRepository truckRepository;
-    private TestRestTemplate testRestTemplate;
-
-    @LocalServerPort
-    private int port;
 
     @Test
-    @DisplayName("Find All or By Id - Returns list of Trucks when successful")
-    void truckFindAllById_ReturnsListOfTrucks_WhenSuccessful() {
-        TruckCreator truckCreator = new TruckCreator();
-        String expectedName = truckCreator.createTruckToBeSaved().getName();
-        TruckEntity savedTruckEntity = truckRepository.save(truckCreator.createTruckToBeSaved());
+    @DisplayName("Find By Id")
+    void truckGetFindById_shouldReturns_statusCode200() throws Exception {
 
-        List<TruckEntity> truckEntities = testRestTemplate.exchange("/v1/truck", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<TruckEntity>>() {
-                }).getBody();
+        var truckToGetEntity = List.of(TruckEntity.builder()
+                .id("12321F")
+                .name("Scania")
+                .build());
+        var ids = List.of("12321F");
 
-        Assertions.assertThat(truckEntities).isNotEmpty().isNotNull().hasSize(1);
+        when(truckRepositoryMock.findAllByIdIn(ids)).thenReturn(truckToGetEntity);
 
-        Assertions.assertThat(truckEntities.get(0).getName()).isEqualTo(expectedName);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/v1/truck")
+                        .param("id","12321F"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.[0].nome").value("Scania"))
+                .andReturn();
 
     }
-//
-//
-//
-//    @Test
-//    @DisplayName("FindAll or By Id - Returns list of Trucks when successful")
-//    void truckFindAllById_ReturnsListOfTrucks_WhenTruckIsNotFound(){
-//        BDDMockito.when(truckServiceMock.getTrucksByIdOrAll(ArgumentMatchers.any()))
-//                .thenReturn(Collections.emptyList());
-//
-//        List<String> id = List.of("312321");
-//
-//        List<TruckResponse> truckResponses = truckController.getTrucks(id).getBody();
-//
-//        Assertions.assertThat(truckResponses).isNotNull()
-//                .isEmpty();
-//    }
-//
-//    @Test
-//    @DisplayName("Save a Truck - Returns Truck when successful")
-//    void SaveTheTruck_ReturnsTruck_WhenTruckIsSuccessful(){
-//        TruckCreator truckCreator = new TruckCreator();
-//
-//        TruckCreatorMapper truckCreatorMapper = new TruckCreatorMapper();
-//
-//        TruckResponse truckResponses = truckController.createNewTruck(truckCreatorMapper.creatorTruckSavedToRequest());
-//
-//        Assertions.assertThat(truckResponses).isNotNull()
-//                .isEqualTo(truckCreator.createTruckToBeSaved());
-//    }
-//
-//    @Test
-//    @DisplayName("Update a Truck - Returns the updated Truck when successful")
-//    void updateTheTruck_ReturnsUpdatedTruck_WhenTruckIsSuccessful(){
-//        TruckCreator truckCreator = new TruckCreator();
-//        TruckCreatorMapper truckCreatorMapper = new TruckCreatorMapper();
-//
-//        TruckResponse truckResponse = truckController.updateTruckData(truckCreatorMapper.creatorTruckEntityToRequest());
-//
-//        Assertions.assertThat(truckResponse).isNotNull()
-//                .isEqualTo(truckCreatorMapper.creatorTruckEntityToResponse());
-//    }
-//
-//    @Test
-//    @DisplayName("Delete a Truck when successful")
-//    void delete_RemovesTruck_WhenTruckIsSuccessful(){
-//        List<String> anyId = List.of("1");
-//
-//        Assertions.assertThatCode(()->truckController.deleteTruck(anyId)).doesNotThrowAnyException();
-//
-//        ResponseEntity<Void> entity = truckController.deleteTruck(anyId);
-//
-//        Assertions.assertThat(entity).isNotNull();
-//
-//        Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-//    }
-//
-//    @Test
-//    @DisplayName("Delete a Truck's Route when successful")
-//    void deleteRoute_RemovesTruckRoute_WhenRouteIsSuccessful(){
-//        Assertions.assertThatCode(()->truckController.deleteRouteTruckById("1")).doesNotThrowAnyException();
-//
-//        ResponseEntity<Void> entity = truckController.deleteRouteTruckById("1");
-//
-//        Assertions.assertThat(entity).isNotNull();
-//
-//        Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
+
+//    @Test
+//    @DisplayName("TruckGet - Returns TruckNotFoundException")
+//    void truckGetFindAll_ReturnsTruckNotFoundException() throws Exception {
+//        var truckToGet = TruckEntity.builder()
+//                .id("12312G")
+//                .name("SomeExpectedTruck")
+//                .build();
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//            .get("/v1/truck?id=12321F"))
+//
+//            .andDo(print())
+//        .andExpect(MockMvcResultMatchers
+//            .status()
+//            .is4xxClientError());
+//    }
+
+    @Test
+    @DisplayName("PostNewTruck")
+    void truckPost_shouldReturns_statusCode201() throws Exception {
+
+       var truckUpdated=TruckEntity.builder()
+               .id("12321F")
+               .name("Scania")
+               .build();
+        var truckToUpdate=TruckRequest.builder()
+               .id("12321F")
+               .name("Scania")
+               .build();
+
+        when(truckRepositoryMock.save(any())).thenReturn(truckUpdated);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/v1/truck")
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(objectMapper.writeValueAsString(truckToUpdate)))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.nome").value("Scania"))
+                .andExpect(status().isCreated());
+    }
+
+
+    @Test
+    @DisplayName("Update a Truck statuscode200")
+    void truckUpdate_shouldReturns_statusCode200() throws Exception {
+
+        var truckToGet=TruckEntity.builder()
+                .id("12321F")
+                .name("Scania")
+                .build();
+
+        var truckUpdated=TruckEntity.builder()
+                .id("12321F")
+                .name("Scania2")
+                .build();
+
+        truckRepositoryMock.save(truckToGet);
+        when(truckRepositoryMock.save(any())).thenReturn(truckUpdated);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/v1/truck")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(truckUpdated))
+                        .accept(MediaType.APPLICATION_JSON))
+              //  .andDo(print())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.nome").value("Scania2"))
+                .andExpect(status().is2xxSuccessful());
+
+    }
+
+    @Test
+    @DisplayName("Try Update a Truck throws NotFoundException404")
+    void truckUpdate_NotFoundException_shouldReturns_statusCode404() throws Exception {
+
+        var truckToUpdateNotFound = TruckRequest.builder()
+                .id("12321F")
+                .build();
+
+        when(truckRepositoryMock.findAllByIdIn(any())).thenThrow(TruckNotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/v1/truck")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(truckToUpdateNotFound)))
+               .andExpect(status().is4xxClientError());
+    }
+
+
+    @Test
+    @DisplayName("Truck delete statuscode204")
+    void truckDelete_shouldReturns_statusCode204() throws Exception {
+           mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/v1/truck/delete")
+                        .param("id",""))
+               .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Route delete Truck delete status code204")
+    void shouldDeleteRouteTruck_shouldReturns_statusCode204() throws Exception {
+        List<String> destination = List.of("Sao Paulo - SP, Brasil");
+        List<String> origin = List.of("Canoas - RS, Brasil");
+
+        var routesRequest = RoutesIntegrationRequest.builder()
+                .originAddresses(origin)
+                .destinationAddresses(destination)
+                .build();
+
+
+        var truckToSave = TruckEntity.builder()
+                .id("12321F")
+                .name("Scania")
+                .routesEntity(RoutesEntity.builder()
+                        .originAddresses(origin)
+                        .destinationAddresses(destination)
+                        .distance(Distance.builder()
+                                .value(1386447)
+                                .text("1,386 km")
+                                .build()
+                        )
+                        .duration(Duration.builder()
+                                .value(63387)
+                                .text("17 hours 36 mins")
+                                .build())
+                        .freightCost(1399.86)
+
+                        .build())
+                .build();
+
+        this.truckRepositoryMock.save(truckToSave);
+
+
+
+           mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/v1/truck/routeDelete/12321F"))
+           .andExpect(status().isNoContent());
+
+    }
+
+    @Test
+    @DisplayName("Try delete a truck's route Throws TruckNotFoundException")
+    void shouldDeleteATruckRoute_TruckNotfoundException() throws Exception {
+       var truckToSave = TruckEntity.builder()
+               .id("56468F")
+               .name("Scania")
+               .build();
+
+        this.truckRepositoryMock.save(truckToSave);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/v1/truck/routeDelete/12321F"))
+                .andExpect(status().is4xxClientError());
+    }
 
 }

@@ -24,12 +24,11 @@ import java.util.List;
 class TruckServiceTest {
     @InjectMocks //Quando quer testar a classe em si, por exemplo,  a truckService
     private TruckService truckService;
-
     @Mock //Mock do comportamento, vamos definir o comportamento do truckService
     private TruckRepository truckRepositoryMock;
 
     @BeforeEach
-        //antes de cada
+
     void setUp() {
         TruckCreator truckCreator = new TruckCreator();
 
@@ -44,11 +43,12 @@ class TruckServiceTest {
         BDDMockito.when(truckRepositoryMock.save(ArgumentMatchers.any(TruckEntity.class)))
                 .thenReturn(truckCreator.createValidUpdateTruck());
 
+        BDDMockito.when(truckRepositoryMock.save(ArgumentMatchers.any(TruckEntity.class)))
+                .thenReturn(truckCreator.createValidUpdateTruck());
+
 
         //Quando retornar void:
         //Delete Truck
-        BDDMockito.doNothing().when(truckRepositoryMock).delete(ArgumentMatchers.any(TruckEntity.class));
-        //Delete Truck's Route
         BDDMockito.doNothing().when(truckRepositoryMock).delete(ArgumentMatchers.any(TruckEntity.class));
 
 
@@ -99,17 +99,6 @@ class TruckServiceTest {
                                              .isEqualTo(truckCreatorMapper.creatorTruckEntityToResponse());
     }
 
-//    @Test
-//    @DisplayName("Save a Truck - Returns Truck when successful")
-//    void SaveTheTruck_DontReturns_TruckAlreadyExists() {
-//        TruckCreator truckCreator = new TruckCreator();
-//        TruckCreatorMapper truckCreatorMapper = new TruckCreatorMapper();
-//
-//        TruckResponse truckResponses = truckService.createTruck(truckCreatorMapper.creatorTruckEntityToRequest());
-//
-//        Assertions.assertThat(truckResponses).isNotNull()
-//                                             .isEqualTo(truckCreator.createValidTruck());
-//    }
 
     @Test
     @DisplayName("Update a Truck - Returns the updated Truck when successful")
@@ -136,20 +125,20 @@ class TruckServiceTest {
 
         Assertions.assertThatExceptionOfType(TruckNotFoundException.class)
                 .isThrownBy(()->truckService
-                        .deleteRouteTruckByIdOrThrowsTruckNotFoundException("1"));
+                .deleteRouteTruckByIdOrThrowsTruckNotFoundException("1"));
 
     }
 
-//    @Test
-//    @DisplayName("FreightCost return freightcost when successful")
-//    void freightCost_CalculateFreight_ReturnsCost_WhenSuccessful() {
-//        String distanceToTest="250 km";
-//        double expectedValue=295;
-//        double valueReal = truckService.freightCost(distanceToTest);
-//
-//        Assertions.assertThat(valueReal).isEqualTo(expectedValue);
-//
-//    }
+    @Test
+    @DisplayName("FreightCost return freightcost when successful")
+    void freightCost_CalculateFreight_ReturnsCost_WhenSuccessful() {
+        String distanceToTest="250 km";
+        double expectedValue=295;
+        double valueReal = truckService.freightCost(distanceToTest);
+
+        Assertions.assertThat(valueReal).isEqualTo(expectedValue);
+
+    }
 
 
 }

@@ -10,29 +10,30 @@ import com.example.callingexternalapi.v1.model.truck.TruckResponse;
 import com.example.callingexternalapi.v1.repository.TruckRepository;
 import com.example.callingexternalapi.v1.repository.entity.TruckEntity;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@NoArgsConstructor
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class TruckService {
     private TruckRepository truckRepository;
     private RoutesIntegration routesIntegration;
 
-    public List<TruckResponse> getTrucksByIdOrAll(List<String> ids){
+    public List<TruckResponse> getTrucksByIdOrAll(List<String> ids) throws TruckNotFoundException{
 
-        if(ids.isEmpty()){
+        if(ids.get(0).equals("all")){
             return this.truckRepository.findAll()
                     .stream()
                     .map(TruckMapper::truckEntityToResponse)
                     .toList();
         }else{
-            return this.truckRepository.findAllByIdIn(ids)
+            return Optional.of(this.truckRepository.findAllByIdIn(ids))
+                    .orElseThrow(TruckNotFoundException::new)
                     .stream()
-                    .map(TruckMapper::truckEntityToResponse)
-                    .toList();
+                    .map(TruckMapper::truckEntityToResponse).toList();
+
         }
     }
 
@@ -60,22 +61,27 @@ public class TruckService {
     }
 
     public TruckResponse updateDataByIdOrThrowsTruckNotFoundException(TruckRequest truckRequest) {
-        TruckEntity truckToSave = this.truckRepository.findById(truckRequest.getId())
-                .orElseThrow(TruckNotFoundException::new);
 
+        TruckEntity truckToSave = this.truckRepository.findById(truckRequest.getId())
+                                      .orElseThrow(TruckNotFoundException::new);
+
+        truckRequest.setRoutesEntity(truckToSave.getRoutesEntity());
         truckRequest.setId(truckToSave.getId());
         truckRepository.save(TruckMapper.truckRequestoToEntity(truckRequest));
+
         return TruckMapper.truckRequestToResponse(truckRequest);
     }
 
     public TruckResponse updateTrucksRouteOrThrowsTruckNotFoundException(String id,
                                                                          RoutesRequest routesRequest){
         TruckEntity truckToSave = this.truckRepository.findById(id)
-                .orElseThrow(TruckNotFoundException::new);
+                                                      .orElseThrow(TruckNotFoundException::new);
+
         truckToSave.setId(id);
 
         var routeIntegrationRequest = RoutesIntegrationMapper.routesRoutesRequestToIntegrationRequest(routesRequest);
         var routeToBeSavedOne = routesIntegration.getRoutes(routeIntegrationRequest);//json com tudo o que recebeu
+
         //Aqui transforma a Integration Response para RouteEntity
         var routeToBeSavedTwo = RoutesIntegrationMapper.routeIntegrationResponseToRouteEntity(routeToBeSavedOne);
 
@@ -90,13 +96,15 @@ public class TruckService {
 
 
     public void deleteRouteTruckByIdOrThrowsTruckNotFoundException(String id){
+
         var truckToDeleteRoute = this.truckRepository.findById(id)
-                .orElseThrow(TruckNotFoundException::new);
+                                                .orElseThrow(TruckNotFoundException::new);
+
         truckToDeleteRoute.setId(id);
         truckToDeleteRoute.setRoutesEntity(null);
         this.truckRepository.save(truckToDeleteRoute);
-    }
 
+    }
 
     //Calculo do frete
     public Double freightCost(String distance){

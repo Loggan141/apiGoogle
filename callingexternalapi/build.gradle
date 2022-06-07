@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+
 }
 
 group = 'com.example'
@@ -26,17 +27,26 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 	implementation 'org.projectlombok:lombok:1.18.24'
+	implementation 'org.hamcrest:hamcrest:2.2'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+	implementation 'org.mock-server:mockserver-client-java:5.13.2'
+    implementation 'org.mock-server:mockserver-netty:5.13.2'
 
-	implementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-	implementation 'org.hamcrest:hamcrest-library:2.2'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
 	implementation 'com.jayway.jsonpath:json-path:2.7.0'
-	implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.5'
 
 
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
 	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 
@@ -49,4 +59,5 @@ tasks.named('test') {
 	useJUnitPlatform()
 
 }
+
 

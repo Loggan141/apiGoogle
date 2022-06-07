@@ -3,6 +3,7 @@ package com.example.callingexternalapi.v1.handler;
 import com.example.callingexternalapi.v1.exception.ExceptionDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,7 +16,6 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
      public ResponseEntity<ExceptionDetails> handleMethodNotSupported(HttpRequestMethodNotSupportedException exception){
         return new ResponseEntity<>(ExceptionDetails.builder()
@@ -103,6 +103,18 @@ public class GlobalExceptionHandler {
                 .title("Invalid Argument")
                 .developerMessage(exception.getClass().getName())
                 .build(), HttpStatus.NOT_ACCEPTABLE);
+    }
+    @ExceptionHandler(HttpMessageConversionException.class)
+    public ResponseEntity<ExceptionDetails> handleHttpMessageConversionException(
+            HttpMessageConversionException exception){
+        return new ResponseEntity<>(ExceptionDetails.builder()
+                .title("Internal Server Error")
+                .detail(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .title("Something in server is wrong")
+                .developerMessage(exception.getClass().getName())
+                .build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
